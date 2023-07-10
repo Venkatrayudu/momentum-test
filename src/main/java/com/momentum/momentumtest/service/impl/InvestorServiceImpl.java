@@ -1,5 +1,6 @@
 package com.momentum.momentumtest.service.impl;
 
+import com.momentum.momentumtest.exception.InvestorNotFoundException;
 import com.momentum.momentumtest.model.InvestorDetails;
 import com.momentum.momentumtest.model.InvestorProduct;
 import com.momentum.momentumtest.model.WithdrawalRequest;
@@ -14,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Service
 public class InvestorServiceImpl implements InvestorService {
@@ -26,8 +26,9 @@ public class InvestorServiceImpl implements InvestorService {
     private InvestorProductsRepo productsRepo;
 
     @Override
-    public InvestorDetails getInvestorDetails(String id) {
-        return detailsRepo.findById(Long.valueOf(id)).get();
+    public InvestorDetails getInvestorDetails(String id) throws InvestorNotFoundException {
+
+        return detailsRepo.findById(Long.valueOf(id)).orElseThrow(() -> new InvestorNotFoundException("Investor Not Found."));
     }
 
     @Override
@@ -36,15 +37,15 @@ public class InvestorServiceImpl implements InvestorService {
     }
 
     @Override
-    public String processInvestorWithdrawal(WithdrawalRequest withdrawalRequest) {
-        InvestorProduct investorProduct = productsRepo.findProductsByInvestorId(Long.valueOf(withdrawalRequest.getInvestorId()))
+    public String processInvestorWithdrawal(WithdrawalRequest withdrawalRequest) throws InvestorNotFoundException {
+        InvestorProduct investorProduct = productsRepo.findProductsByInvestorId((long) withdrawalRequest.getInvestorId())
                 .stream()
                 .filter(product -> product.getProductType().equalsIgnoreCase(withdrawalRequest.getProductType()))
-                .collect(Collectors.toList()).get(0);
+                .toList().get(0);
         Long withdrawalAmount = withdrawalRequest.getWithdrawalAmount();
         Long currentBalance = investorProduct.getCurrentBalance();
         String investorId = investorProduct.getInvestorId().toString();
-        long ageDiffInYears = 0;
+        long ageDiffInYears;
         try {
             Date dob = new SimpleDateFormat("dd-MM-yyyy").parse(getInvestorDetails(investorId).getDateOfBirth());
             long ageDiffInMillies = Math.abs(System.currentTimeMillis() - dob.getTime());

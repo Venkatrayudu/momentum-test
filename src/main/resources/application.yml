@@ -4,5 +4,10 @@ spring:
     username: postgres
     password: postgres
   jpa:
-    database-platform=org: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     generate-ddl: true
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    operationsSorter: method

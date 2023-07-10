@@ -11,5 +11,4 @@ public class MomentumTestApplication {
     public static void main(String[] args) {
         SpringApplication.run(MomentumTestApplication.class, args);
     }
-
 }

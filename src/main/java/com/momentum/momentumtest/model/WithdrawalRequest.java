@@ -1,11 +1,16 @@
 package com.momentum.momentumtest.model;
 
-import java.math.BigDecimal;
+import jakarta.validation.constraints.NotBlank;
 
 public class WithdrawalRequest {
 
+    @NotBlank
     private int investorId;
+
+    @NotBlank
     private String productType;
+
+    @NotBlank
     private Long withdrawalAmount;
 
     public int getInvestorId() {
