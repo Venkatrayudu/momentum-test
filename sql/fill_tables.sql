@@ -1,5 +1,5 @@
 INSERT INTO public.investor_details( id, name, surname, dob, address, mobile, email)
-    VALUES (111, 'Venkat', 'Meduri', '02-08-1988', 'Midrand', '0640818794', 'venkatrayudu.meduri@gmail.com');
+    VALUES (111, 'Venkat', 'Meduri', '02-08-1948', 'Midrand', '0640818794', 'venkatrayudu.meduri@gmail.com');
 
 INSERT INTO public.investor_details( id, name, surname, dob, address, mobile, email)
 VALUES (222, 'Rayudu', 'Meduri', '01-01-2001', 'Lisbon', '0714779396', 'rayudu.meduri@gmail.com');
